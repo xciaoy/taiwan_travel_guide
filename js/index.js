@@ -80,10 +80,10 @@ $(function(){
 
 // API驗證
 function getAuthorizationHeader() {
-//  填入自己 ID、KEY 開始
-  let AppID = '4ad9f73726a0409a9376afd2b59e59a7';
-  let AppKey = 'iR-j7mJI1CY924a-xfd6vhXZciM';
-//  填入自己 ID、KEY 結束
+  //  填入自己 ID、KEY 開始
+  let AppID = '93ad7bf1688a47a3a7f3c346d675d588';
+  let AppKey = 'TCbubL4-YuFRXkJsNJ64FcGncG0';
+  //  填入自己 ID、KEY 結束
   let GMTString = new Date().toGMTString();
   let ShaObj = new jsSHA('SHA-1', 'TEXT');
   ShaObj.setHMACKey(AppKey, 'TEXT');
@@ -339,130 +339,110 @@ function renderSearchPage(){
   renderSection.innerHTML=str;
 }
 
+// 過濾結果渲染
+function searchListRender(list){
+  if(searchList){
+    let str=""
+    list.forEach(item=>{
+      switch(item.type){
+        case 'ScenicSpot':
+          str+=`
+          <div class="col">
+            <div class="card shadow">
+              <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(${item.data.Picture.PictureUrl1}); max-height: 182px; min-height: 162px;"></div>
+              <div class="card-body position-relative">
+                <h4>${item.data.ScenicSpotName}</h4>
+                <div class="text-primary">
+                  <i class="icon-location fs-3 align-middle"><span class="path1"></span><span class="path2"></span></i>
+                  <small class="me-3">${item.data.City}</small>
+                  <i class="icon-time fs-3 align-middle"></i>
+                  <small>${item.data.OpenTime}</small> 
+                </div>
+                <a href="page.html?id=${item.data.ScenicSpotID}&&type=${item.type}" class="stretched-link"></a>
+              </div>
+            </div>
+          </div>    
+          `
+          break;
+          case 'Activity':
+            let startTime=item.data.StartTime.substring(0,10)
+            let endTime=item.data.EndTime.substring(0,10)
+            str+=`
+            <div class="col">
+              <div class="card shadow">
+                <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(${item.data.Picture.PictureUrl1}); max-height: 182px; min-height: 162px;"></div>
 
-// 搜尋監聽
-const searchInput=document.querySelector('#searchInput')
-const searchBtn=document.querySelector('#searchBtn')
-const searchIcon=document.querySelector('#searchIcon')
+                <div class="card-body position-relative">
+                  <h4>${item.data.ActivityName}</h4>
+                  <div class="text-primary">
+                    <i class="icon-time fs-3 align-middle"></i>
+                    <small class="me-3">${startTime} ~ ${endTime}</small>
+                    <br>
+                    <i class="icon-location fs-3 align-middle"><span class="path1"></span><span class="path2"></span></i>
+                    <small>${item.data.Location}</small> 
+                  </div>
+                  <a href="page.html?id=${item.data.ActivityID}&&type=${item.type}" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>    
+            `
+          break;
+          case 'Restaurant':
+            str+=`
+            <div class="col">
+              <div class="card shadow">
+                <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(${item.data.Picture.PictureUrl1}); max-height: 182px; min-height: 162px;"></div>
 
+                <div class="card-body position-relative">
+                  <h4 class="text-wrap">${item.data.RestaurantName}</h4>
+                  <div class="text-primary">
+                    <div class="d-flex mb-1">
+                      <i class="icon-time fs-3 align-top me-1"></i>
+                      <small class="me-3 text-wrap">${item.data.OpenTime}</small>
+                    </div>
+                    <div class="d-flex">
+                      <i class="icon-location fs-3 align-middle me-1"><span class="path1"></span><span class="path2"></span></i>
+                      <small class="text-wrap">${item.data.Address}</small> 
+                    </div>
+                  </div>
+                  <a href="page.html?id=${item.data.RestaurantID}&&type=${item.type}" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>  
+            `     
+          break;
+          case 'Hotel':
+            str+=`
+            <div class="col">
+              <div class="card shadow">
+                <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(${item.data.Picture.PictureUrl1}); max-height: 182px; min-height: 162px;"></div>
 
-// searchInput.addEventListener('keypress',()=>{
-//   let searchResult=allData.filter(item=>item.data.ScenicSpotName.includes(searchInput.value))
-//   searchListRender(searchResult)
-// })
-// searchBtn.addEventListener('click',()=>{
-//   let searchResult=allData.filter(item=>item.data.ScenicSpotName.includes(searchInput.value))
-//   searchListRender(searchResult)
-// })
-// searchBtn.addEventListener('click',()=>{
-//   let searchResult=allData.filter(item=>item.data.ScenicSpotName.includes(searchInput.value))
-//   searchListRender(searchResult)
-// })
-// // 過濾結果渲染
-// function searchListRender(list){
-//   if(searchList){
-//     let str=""
-//     list.forEach(item=>{
-//       switch(item.type){
-//         case 'ScenicSpot':
-//           str+=`
-//           <div class="col">
-//             <div class="card shadow">
-//               <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(${item.data.Picture.PictureUrl1}); max-height: 182px; min-height: 162px;"></div>
-//               <div class="card-body position-relative">
-//                 <h4>${item.data.ScenicSpotName}</h4>
-//                 <div class="text-primary">
-//                   <i class="icon-location fs-3 align-middle"><span class="path1"></span><span class="path2"></span></i>
-//                   <small class="me-3">${item.data.City}</small>
-//                   <i class="icon-time fs-3 align-middle"></i>
-//                   <small>${item.data.OpenTime}</small> 
-//                 </div>
-//                 <a href="page.html?id=${item.data.ScenicSpotID}&&type=${item.type}" class="stretched-link"></a>
-//               </div>
-//             </div>
-//           </div>    
-//           `
-//           break;
-//           case 'Activity':
-//             let startTime=item.data.StartTime.substring(0,10)
-//             let endTime=item.data.EndTime.substring(0,10)
-//             str+=`
-//             <div class="col">
-//               <div class="card shadow">
-//                 <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(${item.data.Picture.PictureUrl1}); max-height: 182px; min-height: 162px;"></div>
-
-//                 <div class="card-body position-relative">
-//                   <h4>${item.data.ActivityName}</h4>
-//                   <div class="text-primary">
-//                     <i class="icon-time fs-3 align-middle"></i>
-//                     <small class="me-3">${startTime} ~ ${endTime}</small>
-//                     <br>
-//                     <i class="icon-location fs-3 align-middle"><span class="path1"></span><span class="path2"></span></i>
-//                     <small>${item.data.Location}</small> 
-//                   </div>
-//                   <a href="page.html?id=${item.data.ActivityID}&&type=${item.type}" class="stretched-link"></a>
-//                 </div>
-//               </div>
-//             </div>    
-//             `
-//           break;
-//           case 'Restaurant':
-//             str+=`
-//             <div class="col">
-//               <div class="card shadow">
-//                 <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(${item.data.Picture.PictureUrl1}); max-height: 182px; min-height: 162px;"></div>
-
-//                 <div class="card-body position-relative">
-//                   <h4 class="text-wrap">${item.data.RestaurantName}</h4>
-//                   <div class="text-primary">
-//                     <div class="d-flex mb-1">
-//                       <i class="icon-time fs-3 align-top me-1"></i>
-//                       <small class="me-3 text-wrap">${item.data.OpenTime}</small>
-//                     </div>
-//                     <div class="d-flex">
-//                       <i class="icon-location fs-3 align-middle me-1"><span class="path1"></span><span class="path2"></span></i>
-//                       <small class="text-wrap">${item.data.Address}</small> 
-//                     </div>
-//                   </div>
-//                   <a href="page.html?id=${item.data.RestaurantID}&&type=${item.type}" class="stretched-link"></a>
-//                 </div>
-//               </div>
-//             </div>  
-//             `     
-//           break;
-//           case 'Hotel':
-//             str+=`
-//             <div class="col">
-//               <div class="card shadow">
-//                 <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(${item.data.Picture.PictureUrl1}); max-height: 182px; min-height: 162px;"></div>
-
-//                 <div class="card-body position-relative">
-//                   <h4 class="text-wrap">${item.data.HotelName}</h4>
-//                   <div class="text-primary">
-//                     <div class="d-flex mb-1">
-//                       <i class="icon-call fs-3 align-top me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-//                       <small class="me-3 text-wrap">${item.data.Phone}</small>
-//                     </div>
-//                     <div class="d-flex">
-//                       <i class="icon-location fs-3 align-middle me-1"><span class="path1"></span><span class="path2"></span></i>
-//                       <small class="text-wrap">${item.data.Address}</small> 
-//                     </div>
-//                   </div>
-//                   <a href="page.html?id=${item.data.HotelID}&&type=${item.type}" class="stretched-link"></a>
-//                 </div>
-//               </div>
-//             </div>  
-//             `
-//           break;
+                <div class="card-body position-relative">
+                  <h4 class="text-wrap">${item.data.HotelName}</h4>
+                  <div class="text-primary">
+                    <div class="d-flex mb-1">
+                      <i class="icon-call fs-3 align-top me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                      <small class="me-3 text-wrap">${item.data.Phone}</small>
+                    </div>
+                    <div class="d-flex">
+                      <i class="icon-location fs-3 align-middle me-1"><span class="path1"></span><span class="path2"></span></i>
+                      <small class="text-wrap">${item.data.Address}</small> 
+                    </div>
+                  </div>
+                  <a href="page.html?id=${item.data.HotelID}&&type=${item.type}" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>  
+            `
+          break;
           
-//       }
-//     })
-//     searchList.innerHTML=str
-//   }
-//   // 更新url
-//   getUrlDetail()
-//   window.history.pushState(state,'台灣旅遊景點導覽',`?city=${urlCity}&&theme=${urlTheme}&&keyword=${searchInput.value}`)  
-// }
+      }
+    })
+    searchList.innerHTML=str
+  }
+  // 更新url
+  getUrlDetail()
+}
 
 // 主題按鈕監聽
 const theme=document.querySelector('#theme')
