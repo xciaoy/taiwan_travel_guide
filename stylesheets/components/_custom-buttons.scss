@@ -1,0 +1,11 @@
+.btn-outline-primary{
+  @include button-outline-variant($primary);
+  &:hover{
+    color:$white!important;
+    border-color: $primary;
+  }
+  &.active{
+    color:$white!important;
+    border-color: $primary;
+  }
+}

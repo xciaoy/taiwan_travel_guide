@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>台灣旅遊景點導覽</title>
+  <link rel="stylesheet" href="css/all.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+</head>
+<body class="">
+  <div class="sticky-top bg-white">
+    <nav class="pt-3 ps-3 pb-2 d-flex align-items-center justify-content-between border-bottom shadow d-lg-none">
+      <div class="icon-hover">
+        <a href="#" data-bs-toggle="collapse" data-bs-target="#collapseContent" aria-controls="collapseContent" aria-expanded="false" aria-label="Toggle sidebar">
+          <img src="./images/filter.png" alt="filter">
+        </a>
+      </div>
+      <a href="index.html"><img src="./images/logo.png" alt="logo" class="img-fluid"></a>
+      <div class=""></div>
+    </nav>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- sidebar -->
+      <div class="col-12 col-lg-3 pt-6 px-4 d-lg-block collapse py-9" id="collapseContent">
+        <div class="sticky-lg-top" style="top: 40px;">
+          <a href="index.html" class="d-inline-block mb-4 d-none d-lg-block"><img src="./images/logo.png" alt="logo" class="img-fluid"></a>
+          <div class="row row-cols-1 gy-4 mb-4">
+            <div class="col position-relative dropdown">
+              <input type="text" class="form-control" aria-label="目的地" placeholder="目的地" id="cityInput">
+              <a href="#" class="position-absolute text-decoration-none top-50 translate-middle right-12"
+                data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent" data-bs-offset="0,0" data-bs-auto-close="true">
+                <img src="./images/Arrow - Down Circle.png" alt="arrow-icon">
+              </a>
+              <div class="dropdown-menu border-0 shadow text-nowrap p-7 right-12 left-12 rounded-3">
+                <div class="row row-cols-3">
+                </div>
+              </div>
+            </div>
+            <div class="col position-relative">
+              <input type="text" class="form-control" aria-label="搜尋關鍵字" placeholder="搜尋關鍵字" id="searchInput">
+              <a href="#" class="position-absolute text-decoration-none top-50 translate-middle right-12" id="searchIcon">
+                <img src="./images/Search.png" alt="search-icon">
+              </a>
+            </div>
+            <div class="col">
+              <div class="border-bottom"></div>
+            </div>
+          </div>
+          <div>
+            <h3 class="mb-4">精選主題</h3>
+            <div class="row row-cols-2 space-between" id='theme'>
+              <div class="col text-center p-1 rounded-2 border-hover">
+                <a href="#"><img src="./images/culture.png" alt="歷史文化圖示" data-theme="culture"></a>
+                <p class="mb-0">歷史文化</p>
+              </div>
+              <div class="col text-center p-1 rounded-2 border-hover">
+                <a href="#"><img src="./images/bike.png" alt="戶外踏青圖示" data-theme="outdoor"></a>
+                <p class="mb-0">戶外踏青</p>
+              </div>
+              <div class="col text-center p-1 rounded-2 border-hover">
+                <a href="#"><img src="./images/temple.png" alt="宗教巡禮圖示" data-theme="temple"></a> 
+                <p class="mb-0">宗教巡禮</p>
+              </div>
+              <div class="col text-center p-1 rounded-2 border-hover">
+                <a href="#"><img src="./images/activity.png" alt="親子活動圖示" data-theme="family"></a>
+                <p class="mb-0">親子活動</p>
+              </div>
+              <div class="col text-center p-1 rounded-2 border-hover">
+                <a href="#"><img src="./images/site.png" alt="風景區圖示" data-theme="spot"></a>              
+                <p class="mb-0">風景區</p>
+              </div>
+              <div class="col text-center p-1 rounded-2 border-hover">
+                <a href="#"><img src="./images/food.png" alt="美食品嚐圖示" data-theme="food"></a>              
+                <p class="mb-0">美食品嚐</p>
+              </div>
+              <div class="col text-center p-1 rounded-2 border-hover">
+                <a href="#"><img src="./images/hotel.png" alt="住宿推薦圖示" data-theme="hotel"></a>              
+                <p class="mb-0">住宿推薦</p>
+              </div>
+              <div class="col text-center p-1 rounded-2 border-hover">
+                <a href="#"><img src="./images/tour.png" alt="觀光活動圖示" data-theme="tourism"></a>              
+                <p class="mb-0">觀光活動</p>
+              </div>
+            </div>
+          </div>
+          <div class="d-lg-none container-fluid fixed-bottom py-2 bg-white">
+            <div class="d-grid">
+              <button class="btn btn-primary text-white" type="button" id="searchBtn">開始搜尋</button>
+            </div>            
+          </div>
+        </div>
+      </div>
+      <!-- main -->
+      <div class="col col-lg-9 pt-4 px-4 bg-gray" id='renderSection'>
+        <header class="row row-cols-2 ps-6 text-nowrap align-items-center shadow rounded-4 mb-6 mx-0">
+          <div class="col">
+            <h1>探索。<br>福爾摩沙</h1>
+          </div>
+          <div class="col">
+            <img src="./images/header.png" alt="一個準備旅行的青年" class="img-fluid">
+          </div>
+        </header>
+
+        <main>
+          <section class="mb-6">
+            <div class="d-flex">
+              <div class="">
+                <img src="./images/Location.png" alt="location-icon">
+                <h3 class="d-inline-block align-top">熱門景點</h3>
+              </div>
+              <a href="#" class="link-primary text-decoration-none align-middle ms-auto">更多熱門景點</a>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 text-nowrap gy-4" id="spotList">
+            </div>
+          </section>
+
+          <section class="mb-6">
+            <div class="d-flex">
+              <div class="">
+                <img src="./images/Location.png" alt="location-icon">
+                <h3 class="d-inline-block align-top">觀光活動</h3>
+              </div>
+              <a href="#" class="link-primary text-decoration-none align-middle ms-auto">更多觀光活動</a>
+            </div>
+            <div class="row row-cols-md-3 row-cols-1 text-nowrap gy-4" id="activityList">
+              <div class="col">
+                <div class="card shadow">
+                  <img src="./images/activitydemo.png" alt="" class="card-img-top" style="height:80%">
+                  <a href="#" class="position-absolute top-12 right-12 icon-hover share"><img src="./images/share.png" alt=""></a>
+                  <div class="card-body position-relative">
+                    <h4>2021臺北燈節</h4>
+                    <div class="text-primary">
+                      <i class="icon-time fs-3 align-middle"></i>
+                      <small class="me-3">2021-12-17 ~ 2021-12-26</small>
+                      <br>
+                      <i class="icon-location fs-3 align-middle"><span class="path1"></span><span class="path2"></span></i>
+                      <small>臺北市 萬華區</small> 
+                    </div>
+                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </section>
+
+          <section class="mb-6">
+            <div class="d-flex">
+              <div class="">
+                <img src="./images/Location.png" alt="location-icon">
+                <h3 class="d-inline-block align-top">美食品嚐</h3>
+              </div>
+              <a href="#" class="link-primary text-decoration-none align-middle ms-auto">更多美食品嚐</a>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 text-nowrap gy-4" id="foodList">
+              <div class="col">
+                <div class="card shadow">
+                  <img src="./images/activitydemo.png" alt="" class="card-img-top" style="height:80%">
+                  <a href="#" class="position-absolute top-12 right-12 icon-hover share"><img src="./images/share.png" alt=""></a>
+                  <div class="card-body position-relative">
+                    <h4 class="text-wrap">七股 / 龍門客棧餐廳(獲選參加2010台灣美食展特色餐廳)</h4>
+                    <div class="text-primary">
+                      <div class="d-flex">
+                        <i class="icon-time fs-3 align-top me-1"></i>
+                        <small class="me-3 text-wrap">週一~週五：10:00~15:00（週二公休）
+                          週六~週日：10:00~21:00</small>
+                      </div>
+                      <div class="d-flex">
+                        <i class="icon-location fs-3 align-middle me-1"><span class="path1"></span><span class="path2"></span></i>
+                        <small class="text-wrap">臺南市724七股區中寮里8-41號（七股鹽山光復國小旁）</small> 
+                      </div>
+                    </div>
+                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </section>
+
+          <section class="mb-6">
+            <div class="d-flex">
+              <div class="">
+                <img src="./images/Location.png" alt="location-icon">
+                <h3 class="d-inline-block align-top">住宿推薦</h3>
+              </div>
+              <a href="#" class="link-primary text-decoration-none align-middle ms-auto">更多住宿推薦</a>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 text-nowrap gy-4" id="hotelList">
+              <div class="col">
+                <div class="card shadow">
+                  <div class="bg-position-center bg-size-cover rounded-top" style="background-image: url(https://taiwan.taiwanstay.net.tw/twpic/94490.jpg); max-height: 182px; min-height: 162px;"></div>
+                  <a href="#" class="position-absolute top-12 right-12 icon-hover share"><img src="./images/share.png" alt=""></a>
+                  <div class="card-body position-relative">
+                    <h4 class="text-wrap">昭月民宿</h4>
+                    <div class="text-primary">
+                      <div class="d-flex mb-1">
+                        <i class="icon-call fs-3 align-top me-1"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                        <small class="me-3 text-wrap">886-4-25855997</small>
+                      </div>
+                      <div class="d-flex">
+                        <i class="icon-location fs-3 align-middle me-1"><span class="path1"></span><span class="path2"></span></i>
+                        <small class="text-wrap">臺中市東勢區慶福里慶福街39號</small> 
+                      </div>
+                    </div>
+                    <a href="#" class="stretched-link"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <footer class="py-2 bg-primary mx-n4 text-center">
+          <p class="text-white mb-1">TAIWAN TRAVEL</p>
+          <small class="text-white">UI Design: jhen | Front-End: Xie Ciao Yun</small>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- jsSHA -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/3.2.0/sha.js"></script>
+  <!-- leaftlet -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>  
+  <script src="./js/index.js"></script>
+</body>
+</html>
