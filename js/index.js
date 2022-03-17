@@ -9,13 +9,6 @@ function getUrlDetail(){
     urlKeyword=info[2].split('=')[1]
   }
 }
-// 精選主題toggle效果
-$(function(){
-  $('.border-hover').on('click',function(){
-    $(this).toggleClass('active');
-    $(this).siblings().removeClass('active');
-  })
-})
 
 // 渲染下拉選單
 const city=[
@@ -69,13 +62,6 @@ dropDownMenu.addEventListener('click',(e)=>{
   getAllData(city,'searchPage')
   // 更新url
   window.history.pushState(state,'台灣旅遊景點導覽',`?city=${city}&&theme=${undefined}&&keyword=${undefined}`)
-})
-// 城市toggle
-$(function(){
-  $('.btnCity').on('click',function(){
-    $(this).toggleClass('active');
-    $(this).parents().siblings().children().removeClass('active');
-  })
 })
 
 // API驗證

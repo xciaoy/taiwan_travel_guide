@@ -60,13 +60,6 @@ dropDownMenu.addEventListener('click',(e)=>{
   // 跳轉url
   window.location.href=`index.html?city=${city}&&theme=${undefined}&&keyword=${undefined}`
 })
-// 城市toggle
-$(function(){
-  $('.btnCity').on('click',function(){
-    $(this).toggleClass('active');
-    $(this).parents().siblings().children().removeClass('active');
-  })
-})
 
 // 主題按鈕監聽
 const theme=document.querySelector('#theme')
