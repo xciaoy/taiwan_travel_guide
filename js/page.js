@@ -1,8 +1,8 @@
 // API驗證
 function getAuthorizationHeader() {
 //  填入自己 ID、KEY 開始
-  let AppID = '93ad7bf1688a47a3a7f3c346d675d588';
-  let AppKey = 'TCbubL4-YuFRXkJsNJ64FcGncG0';
+  let AppID = '9c65e0f8ed164dbc9c4b399fe6f2a9f6';
+  let AppKey = 'yK3mTeDV0zbZDNYh1v38ymum-v0';
 //  填入自己 ID、KEY 結束
   let GMTString = new Date().toGMTString();
   let ShaObj = new jsSHA('SHA-1', 'TEXT');
