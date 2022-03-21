@@ -8,6 +8,8 @@
 
 * SCSS
 * bootstrap
+* axios
+* leaftlet
 
 ## Remark
 
